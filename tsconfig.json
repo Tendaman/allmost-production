@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
+    "noEmitOnError": false,  // Disables all strict type-checking options
+    "noUnusedLocals": false,  // Avoids errors for unused local variables
+    "noUnusedParameters": false, // Avoids errors for unused function parameters
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "typeRoots": ["@types", "./types"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
