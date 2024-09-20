@@ -117,9 +117,9 @@ const page = async ({ params }: Props) => {
             customerId={agencySubscription?.customerId || ''}
             key={addOn.id}
             amt={
-              //@ts-expect-error
+              //@ts-ignore
               addOn.default_price?.unit_amount
-                ? //@ts-expect-error
+                ? //@ts-ignore
                   `$${addOn.default_price.unit_amount / 100}`
                 : '$0'
             }

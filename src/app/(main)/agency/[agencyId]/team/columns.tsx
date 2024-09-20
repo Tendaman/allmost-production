@@ -3,7 +3,13 @@
 import clsx from 'clsx'
 import { ColumnDef } from '@tanstack/react-table'
 import {
+  Agency,
+  AgencySidebarOption,
+  Permissions,
+  Prisma,
   Role,
+  SubAccount,
+  User,
 } from '@prisma/client'
 import Image from 'next/image'
 
