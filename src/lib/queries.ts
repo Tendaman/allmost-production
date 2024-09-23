@@ -572,7 +572,12 @@ export const upsertFunnel = async (
     create: {
       ...funnel,
       id: funnelId || v4(),
+      name: funnel.name,
       subAccountId: subaccountId,
+      description: funnel.description,
+      subDomainName: funnel.subDomainName,
+      favicon: funnel.favicon,
+      liveProducts: funnel.liveProducts,
     },
   })
 

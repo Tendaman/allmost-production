@@ -76,7 +76,7 @@ const PipelineInfoBar = ({ pipelineId, pipelines, subAccountId }: Props) => {
                       key={pipeline.id}
                       value={pipeline.id}
                       onSelect={(currentValue) => {
-                        setValue(currentValue)
+                        setValue(currentValue === value ? "" : currentValue)
                         setOpen(false)
                       }}
                       className="cursor-pointer aria-selected:bg-primary"

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       const subscription = stripeEvent.data.object as Stripe.Subscription
       if (
         !subscription.metadata.connectAccountPayments &&
-        !subscription.metadata.connectAccountSubscriptions
+        !subscription.metadata.connectAccountSubscriptions //remove metadata for live app
       ) {
         switch (stripeEvent.type) {
           case 'customer.subscription.created':

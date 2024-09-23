@@ -67,11 +67,13 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({
   const onSubmit = async (values: z.infer<typeof CreatePipelineFormSchema>) => {
     if (!subAccountId) return
     try {
-      const response = await upsertPipeline({
-        ...values,
+      const pipelineData = {
         id: defaultData?.id,
-        subAccountId: subAccountId,
-      })
+        subAccountId,
+        name: values.name, // Ensure name is always present
+      };
+
+      const response = await upsertPipeline(pipelineData);
 
       await saveActivityLogsNotification({
         agencyId: undefined,
@@ -95,7 +97,7 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({
     setClose()
   }
   return (
-    <Card className="w-full ">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Pipeline Details</CardTitle>
       </CardHeader>

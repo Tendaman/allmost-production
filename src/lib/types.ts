@@ -82,7 +82,7 @@ export type LaneDetail = Lane & {
 }
 
 export const CreatePipelineFormSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { message: "Name is required" }),
 })
 
 export const CreateFunnelFormSchema = z.object({
