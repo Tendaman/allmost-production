@@ -17,6 +17,7 @@ import SettingsTab from './tabs/settings-tab'
 import MediaBucketTab from './tabs/media-bucket-tab'
 import ComponentsTab from './tabs/components-tab'
 import ThemesTab from './tabs/themes-tab'
+import LayersTab from './tabs/layers-tab'
 
 type Props = {
   subaccountId: string
@@ -71,6 +72,15 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
                 </SheetDescription>
               </SheetHeader>
               <ThemesTab />
+            </TabsContent>
+            <TabsContent value="Layers">
+              <SheetHeader className="text-left p-6">
+                <SheetTitle>Layers</SheetTitle>
+                <SheetDescription>
+                  View the editor in a tree like structure.
+                </SheetDescription>
+              </SheetHeader>
+              <LayersTab />
             </TabsContent>
             <TabsContent value="Media">
               <MediaBucketTab subaccountId={subaccountId} />

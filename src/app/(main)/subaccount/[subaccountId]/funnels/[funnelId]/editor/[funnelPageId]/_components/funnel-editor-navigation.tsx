@@ -1,4 +1,5 @@
 'use client'
+import { ModeToggle } from '@/components/global/mode-toggle'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -40,6 +41,7 @@ const FunnelEditorNavigation = ({
 }: Props) => {
   const router = useRouter()
   const { state, dispatch } = useEditor()
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   useEffect(() => {
     dispatch({
@@ -193,6 +195,11 @@ const FunnelEditorNavigation = ({
           </Tabs>
         </aside>
         <aside className="flex items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger>
+              <ModeToggle />
+            </TooltipTrigger>
+          </Tooltip>
           <Button
             variant={'ghost'}
             size={'icon'}
