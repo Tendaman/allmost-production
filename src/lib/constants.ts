@@ -27,7 +27,19 @@ import Tune from '@/components/icons/tune'
 import Video from '@/components/icons/video_recorder'
 import Wallet from '@/components/icons/wallet'
 import Warning from '@/components/icons/warning'
-export const pricingCards = [
+
+
+export interface PricingItem {
+  title: string;
+  description: string;
+  price: string;
+  duration: string;
+  highlight: string;
+  features: string[];
+  /** Product ID from Stripe */
+  priceId: string;
+}
+export const pricingCards: PricingItem[] = [
   {
     title: 'Starter',
     description: 'Perfect for trying out plura',
@@ -43,7 +55,7 @@ export const pricingCards = [
     price: '$49',
     duration: 'month',
     highlight: 'Everything in Starter, plus',
-    features: ['Unlimited Sub accounts', 'Unlimited Team members'],
+    features: ["Everything in Starter", "Unlimited Sub accounts", "Unlimited Team members"],
     priceId: 'price_1Pz496ERQuHKD8YnX21XbhdC',
   },
   {
@@ -52,7 +64,7 @@ export const pricingCards = [
     price: '$99',
     duration: 'month',
     highlight: 'Key features',
-    features: ['Rebilling'],
+    features: ["Everything in Starter & Basic", "Unlimited funnels" ,"Rebilling"],
     priceId: 'price_1Pz4DGERQuHKD8Ynsef9Ve6d',
   },
   {
@@ -61,7 +73,7 @@ export const pricingCards = [
     price: '$199',
     duration: 'month',
     highlight: 'Key features',
-    features: ['Rebilling', '24/7 Support team'],
+    features: ["Includes all Packages", "Automation", "24/7 Support team"],
     priceId: 'price_1Pz4CaERQuHKD8Yn5tS7FV4Y',
   },
 ]
