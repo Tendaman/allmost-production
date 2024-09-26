@@ -80,6 +80,7 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
           id: defaultData?.id || v4(),
           order: defaultData?.order || order,
           pathName: values.pathName || '',
+
         },
         funnelId
       )

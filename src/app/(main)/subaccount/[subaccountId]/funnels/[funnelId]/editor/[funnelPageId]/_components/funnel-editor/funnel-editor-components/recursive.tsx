@@ -27,6 +27,8 @@ const Recursive = ({ element }: Props) => {
       return <Container element={element} />
     case '2Row':
       return <Container element={element} />
+    case '3Col':
+      return <Container element={element} />
     case '__body':
       return <Container element={element} />
 

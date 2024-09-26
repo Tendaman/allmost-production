@@ -180,6 +180,43 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+        case '3Col':
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: 'Container',
+                  styles: { ...defaultStyles, width: '100%' },
+                  type: 'container',
+                },
+              ],
+              id: v4(),
+              name: 'Three Columns',
+              styles: { ...defaultStyles, display: 'flex' },
+              type: '3Col',
+            },
+          },
+        })
+        break
     }
   }
 
