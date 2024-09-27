@@ -15,6 +15,7 @@ import LinkPlaceholder from './link-placeholder'
 import ThreeColumnPlaceholder from './three-column-placeholder'
 import ContactFormComponentPlaceholder from './contact-form-placeholder'
 import CheckoutPlaceholder from './checkout-placeholder'
+import ImagePlaceholder from './image-placeholder'
 
 type Props = {}
 
@@ -59,6 +60,12 @@ const ComponentsTab = (props: Props) => {
       Component: <VideoPlaceholder />,
       label: 'Video',
       id: 'video',
+      group: 'elements',
+    },
+    {
+      Component: <ImagePlaceholder />,
+      label: 'Image',
+      id: 'image',
       group: 'elements',
     },
     {

@@ -75,6 +75,33 @@ const Container = ({ element }: Props) => {
           },
         })
         break
+        case "image": 
+          dispatch({
+            type: "ADD_ELEMENT",
+            payload: {
+              containerId: id,
+              elementDetails: {
+                content: {
+                  src: "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_1280.jpg",
+                  alt: "Image description",
+                },
+                id: v4(),
+                name: "Image",
+                type: "image",
+                styles: {
+                  color: "black",
+                  width: "1000px",
+                  height: "600px",
+                  aspectRatio: "1/1",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  ...defaultStyles,
+                },
+              },
+            },
+          });
+    
+          break
       case 'container':
         dispatch({
           type: 'ADD_ELEMENT',
