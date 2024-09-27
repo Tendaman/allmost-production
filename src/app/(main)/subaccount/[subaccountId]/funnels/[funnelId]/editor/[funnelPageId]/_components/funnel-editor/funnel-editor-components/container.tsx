@@ -90,8 +90,7 @@ const Container = ({ element }: Props) => {
                 type: "image",
                 styles: {
                   color: "black",
-                  width: "1000px",
-                  height: "600px",
+                  width: "100%",
                   aspectRatio: "1/1",
                   marginLeft: "auto",
                   marginRight: "auto",
