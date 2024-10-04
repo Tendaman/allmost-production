@@ -14,7 +14,7 @@
     "@clerk/themes": "^2.1.27",
     "@hookform/resolvers": "^3.9.0",
     "@paypal/checkout-server-sdk": "^1.0.3",
-    "@prisma/client": "^5.19.1",
+    "@prisma/client": "^5.20.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -46,6 +46,7 @@
     "@stripe/stripe-js": "^4.4.0",
     "@tanstack/react-table": "^8.20.5",
     "@tremor/react": "^3.18.1",
+    "@types/stripe": "^8.0.417",
     "@uploadthing/react": "^6.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -62,7 +63,7 @@
     "node-fetch": "^3.3.2",
     "paypal": "^1.0.1",
     "popover": "^2.4.1",
-    "prisma": "^5.19.1",
+    "prisma": "^5.20.0",
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-day-picker": "8.10.1",
@@ -74,7 +75,7 @@
     "recharts": "^2.12.7",
     "shadcn": "^2.0.6",
     "sonner": "^1.5.0",
-    "stripe": "^16.11.0",
+    "stripe": "^17.0.0",
     "styled-components": "^6.1.13",
     "tailwind": "^4.0.0",
     "tailwind-merge": "^2.5.2",
@@ -94,6 +95,6 @@
     "eslint-config-next": "14.2.8",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.6.2"
   }
 }

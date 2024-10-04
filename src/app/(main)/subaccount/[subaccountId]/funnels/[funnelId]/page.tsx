@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import FunnelSettings from './_components/funnel-settings'
 import FunnelSteps from './_components/funnel-steps'
+import FunnelInventory from './_components/funnel-inventory'
 
 type Props = {
   params: { funnelId: string; subaccountId: string }
@@ -29,9 +30,10 @@ const FunnelPage = async ({ params }: Props) => {
         defaultValue="steps"
         className="w-full"
       >
-        <TabsList className="grid  grid-cols-2 w-[50%] bg-transparent ">
+        <TabsList className="grid  grid-cols-3 w-[67%] bg-transparent ">
           <TabsTrigger value="steps">Steps</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="inventory">Inventory</TabsTrigger>
         </TabsList>
         <TabsContent value="steps">
           <FunnelSteps
@@ -43,6 +45,12 @@ const FunnelPage = async ({ params }: Props) => {
         </TabsContent>
         <TabsContent value="settings">
           <FunnelSettings
+            subaccountId={params.subaccountId}
+            defaultData={funnelPages}
+          />
+        </TabsContent>
+        <TabsContent value="inventory">
+          <FunnelInventory
             subaccountId={params.subaccountId}
             defaultData={funnelPages}
           />

@@ -44,7 +44,12 @@ const Checkout = (props: Props) => {
     if (funnelId) {
       const fetchData = async () => {
         const funnelData = await getFunnel(funnelId)
-        setLivePrices(JSON.parse(funnelData?.liveProducts || '[]'))
+        try {
+          setLivePrices(JSON.parse(funnelData?.liveProducts || '[]'))
+        } catch (error) {
+          console.error("Error parsing liveProducts:", error)
+          setLivePrices([]) // Fallback to an empty array if parsing fails
+        }
       }
       fetchData()
     }

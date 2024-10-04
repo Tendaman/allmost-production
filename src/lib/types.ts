@@ -1,3 +1,4 @@
+//src/lib/types.ts
 import {
   Contact,
   Lane,
@@ -21,6 +22,7 @@ import { db } from './db'
 import { z } from 'zod'
 
 import Stripe from 'stripe'
+import Image from 'next/image';
 
 
 export type NotificationWithUser =
@@ -139,6 +141,16 @@ export type StripeCustomerType = {
   name: string
   shipping: ShippingInfo
   address: Address
+}
+
+export type StripeProductType = {
+  name: string;
+  description: string;
+  image: string;
+  priceType: 'one_time' | 'recurring';
+  price: number;
+  currency: string;
+  recurringInterval?: 'day' | 'week' | 'month' | 'year';
 }
 
 export type PricesList = Stripe.ApiList<Stripe.Price>
