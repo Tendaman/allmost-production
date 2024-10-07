@@ -316,11 +316,11 @@ const Container = ({ element }: Props) => {
     <div
       style={styles}
       className={clsx('relative p-4 transition-all group', {
-        'max-w-full w-full': type === 'container' || type === '2Col',
+        'max-w-full w-full': type === 'container' || type === '2Col' || type === '3Col',
         'h-fit': type === 'container',
         'h-full': type === '__body',
         'overflow-scroll ': type === '__body',
-        'flex flex-col md:!flex-row': type === '2Col',
+        'flex flex-col md:!flex-row': type === '2Col' || type === '3Col',
         '!border-blue-500':
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&

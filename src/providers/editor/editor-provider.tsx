@@ -27,6 +27,9 @@ export type EditorElement = {
     prices?: Array<{
       currency: string
       unit_amount: number
+      recurring?: {
+        interval: string;
+      }
     }>
   }
 }
