@@ -64,9 +64,9 @@ const HomePage: React.FC = () => {
           </h1>
           <p></p>
           <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
-            Discover the power of seamless agency management with Plura Agency
+            Discover the power of seamless agency management with AllMost Agency and business
             CRM. Experience the difference today and revolutionize the way you
-            manage your agency with Plura.
+            manage your agency and business with AllMost.
           </p>
           <div className="flex justify-center mt-8">
             <Link
