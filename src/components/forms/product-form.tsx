@@ -26,7 +26,7 @@ const ProductForm = ({ element }: Props) => {
         <img
           src={images[0]}
           alt={name}
-          className="w-full h-48 border border-black-900 object-cover rounded-lg"
+          className="w-full h-48 border border-black-500 object-cover rounded-lg"
         />
       )}
       <h3 className="text-lg font-semibold mt-2">{name}</h3>
