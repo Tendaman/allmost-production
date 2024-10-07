@@ -7,18 +7,56 @@ import React from 'react'
 import { v4 } from 'uuid'
 import Recursive from './recursive'
 import { Trash } from 'lucide-react'
+import { useParams } from 'next/navigation'
 
 type Props = { element: EditorElement }
 
 const Container = ({ element }: Props) => {
   const { id, content, name, styles, type } = element
   const { dispatch, state } = useEditor()
+  const params = useParams()
 
-  const handleOnDrop = (e: React.DragEvent, type: string) => {
+  const handleOnDrop = async (e: React.DragEvent, type: string) => {
     e.stopPropagation()
     const componentType = e.dataTransfer.getData('componentType') as EditorBtns
+    const productId = e.dataTransfer.getData('productId')
 
     switch (componentType) {
+      case 'product':
+        if (productId) {
+          try {
+            const response = await fetch(`/api/stripe/get-product?subaccountId=${params.subaccountId}&productId=${productId}`)
+            if (!response.ok) {
+              throw new Error('Failed to fetch product')
+            }
+            const productData = await response.json()
+            
+            dispatch({
+              type: 'ADD_ELEMENT',
+              payload: {
+                containerId: id,
+                elementDetails: {
+                  content: {
+                    name: productData.name,
+                    images: productData.images,
+                    description: productData.description,
+                    prices: productData.prices,
+                  },
+                  id: v4(),
+                  name: 'Product',
+                  styles: {
+                    ...defaultStyles,
+                  },
+                  type: 'product',
+                },
+              },
+            })
+          } catch (error) {
+            console.error('Error fetching product:', error)
+          }
+        }
+        break
+
       case 'text':
         dispatch({
           type: 'ADD_ELEMENT',

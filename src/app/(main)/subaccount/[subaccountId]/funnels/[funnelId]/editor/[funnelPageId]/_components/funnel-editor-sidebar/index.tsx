@@ -1,3 +1,4 @@
+//src\app\(main)\subaccount\[subaccountId]\funnels\[funnelId]\editor\[funnelPageId]\_components\funnel-editor-sidebar\index.tsx
 'use client'
 import {
   Sheet,
@@ -18,13 +19,14 @@ import MediaBucketTab from './tabs/media-bucket-tab'
 import ComponentsTab from './tabs/components-tab'
 import ThemesTab from './tabs/themes-tab'
 import LayersTab from './tabs/layers-tab'
+import InventoryTab from './tabs/inventory-tab'
 
 type Props = {
   subaccountId: string
 }
 
 const FunnelEditorSidebar = ({ subaccountId }: Props) => {
-  const { state, dispatch } = useEditor()
+  const { state } = useEditor()
 
   return (
     <Sheet
@@ -93,6 +95,15 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
                 </SheetDescription>
               </SheetHeader>
               <ComponentsTab />
+            </TabsContent>
+            <TabsContent value="Inventory">
+              <SheetHeader className="text-left p-6 ">
+                <SheetTitle>Inventory</SheetTitle>
+                <SheetDescription>
+                  Drag and drop products from your inventory into the editor.
+                </SheetDescription>
+              </SheetHeader>
+              <InventoryTab subaccountId={subaccountId}/>
             </TabsContent>
           </div>
         </SheetContent>

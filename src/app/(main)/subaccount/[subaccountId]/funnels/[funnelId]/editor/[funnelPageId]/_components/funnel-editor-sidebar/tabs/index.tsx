@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ImagesIcon, PaintbrushVertical, PenTool, Plus, SquareStackIcon } from 'lucide-react'
+import { ImagesIcon, PaintbrushVertical, PenTool, Plus, ShoppingBagIcon, SquareStackIcon } from 'lucide-react'
 
 type Props = {}
 
@@ -37,6 +37,12 @@ const TabList = (props: Props) => {
         className="w-10 h-10 p-0 data-[state=active]:bg-muted"
       >
         <ImagesIcon />
+      </TabsTrigger>
+      <TabsTrigger
+        value="Inventory"
+        className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+      >
+        <ShoppingBagIcon />
       </TabsTrigger>
     </TabsList>
   )

@@ -245,6 +245,7 @@ export type EditorBtns =
   | 'image'
   | null
   | '3Col'
+  | 'product'
 
 export const defaultStyles: React.CSSProperties = {
   backgroundPosition: 'center',

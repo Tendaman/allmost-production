@@ -26,20 +26,31 @@ import 'react-toastify/dist/ReactToastify.css'; // Importing toast styles
 import { Trash2Icon } from 'lucide-react'
 import DeleteProductPopup from '@/components/delete-product-popup/delete-product'
 
+interface LiveProduct {
+  productId: string;
+  recurring: boolean;
+}
+
 interface FunnelProductsTableProps {
   defaultData: Funnel
   products: Stripe.Product[]
 }
 
 const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
-  products,
+  products = [],
   defaultData,
 }) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [liveProducts, setLiveProducts] = useState<
-    { productId: string; recurring: boolean }[] | []
-  >(JSON.parse(defaultData.liveProducts || '[]'))
+  const [liveProducts, setLiveProducts] = useState<LiveProduct[]>(() => {
+    try {
+      return JSON.parse(defaultData.liveProducts || '[]') as LiveProduct[]; // Cast to LiveProduct[]
+    } catch (error) {
+      console.error('Error parsing liveProducts:', error);
+      return [];
+    }
+  });
+  
 
   const [isCreateProductPopupOpen, setIsCreateProductPopupOpen] = useState(false);
 
@@ -47,7 +58,7 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
   const [productToDelete, setProductToDelete] = useState<string | null>(null); // State to store product ID to delete
 
   // Filter active products
-  const activeProducts = products.filter(product => product.active);
+  const activeProducts = products.filter(product => product.active) || [];
 
   const handleCreateProduct = async (productData: StripeProductType) => {
     try {
@@ -116,6 +127,7 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
         description: `Update funnel products | ${response.name}`,
         subaccountId: defaultData.subAccountId,
       })
+
       router.refresh()
     } catch (error) {
       console.error('Error saving products:', error)
@@ -126,29 +138,32 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
   }
 
   const handleAddProduct = async (product: Stripe.Product) => {
+    if (typeof product.default_price !== 'object' || product.default_price === null) {
+      return;
+    }
+  
+    const defaultPrice = product.default_price as Stripe.Price;
+  
     const productIdExists = liveProducts.find(
-      //@ts-ignore
-      (prod) => prod.productId === product.default_price.id
-    )
-    productIdExists
-      ? setLiveProducts(
-          liveProducts.filter(
-            (prod) =>
-              //@ts-ignore
-              prod.productId !== product.default_price?.id
-          )
+      (prod) => prod.productId === defaultPrice.id
+    );
+  
+    if (productIdExists) {
+      setLiveProducts(
+        liveProducts.filter(
+          (prod) => prod.productId !== defaultPrice.id
         )
-      : //@ts-ignore
-        setLiveProducts([
-          ...liveProducts,
-          {
-            //@ts-ignore
-            productId: product.default_price.id as string,
-            //@ts-ignore
-            recurring: !!product.default_price.recurring,
-          },
-        ])
-  }
+      );
+    } else {
+      setLiveProducts([
+        ...liveProducts,
+        {
+          productId: defaultPrice.id,
+          recurring: !!defaultPrice.recurring,
+        },
+      ]);
+    }
+  };
 
   return (
     <>
@@ -168,10 +183,9 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
             <TableRow key={product.id}>
               <TableCell>
                 <Input
-                  defaultChecked={
+                  checked={
                     !!liveProducts.find(
-                      //@ts-ignore
-                      (prod) => prod.productId === product.default_price?.id
+                      (prod) => prod.productId === (typeof product.default_price === 'object' ? product.default_price.id : product.default_price)
                     )
                   }
                   onChange={() => handleAddProduct(product)}
@@ -189,20 +203,21 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
               </TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>
-                {
-                  //@ts-ignore
-                  product.default_price?.recurring ? 'Recurring' : 'One Time'
-                }
+              {product.default_price && typeof product.default_price === 'object'
+                ? product.default_price.recurring
+                  ? 'Recurring'
+                  : 'One Time'
+                : 'N/A'} {/* Fallback if default_price is not a Price */}
               </TableCell>
               <TableCell className="text-right">
-                {
-                  //@ts-ignore
-                  product.default_price?.unit_amount ? (product.default_price.unit_amount / 100).toLocaleString(undefined, {
-                        style: 'currency',
-                        currency: (product.default_price as Stripe.Price)?.currency || 'USD',
-                      })
-                    : 'Error' // Fallback if unit_amount is not available
-                }
+              {product.default_price && typeof product.default_price === 'object'
+                ? product.default_price.unit_amount
+                  ? (product.default_price.unit_amount / 100).toLocaleString(undefined, {
+                      style: 'currency',
+                      currency: product.default_price.currency || 'USD',
+                    })
+                  : 'Error' // Fallback if unit_amount is not available
+                : 'N/A'} {/* Fallback if default_price is not a Price */}
               </TableCell>
               <TableCell className="text-center">
                 <Button

@@ -20,6 +20,14 @@ export type EditorElement = {
     formDescription?: string;
     formButton?: string;
     alt?: string;
+    // Add these new properties for products
+    name?: string
+    images?: string[]
+    description?: string
+    prices?: Array<{
+      currency: string
+      unit_amount: number
+    }>
   }
 }
 

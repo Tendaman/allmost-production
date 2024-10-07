@@ -1,3 +1,4 @@
+//src\app\(main)\subaccount\[subaccountId]\funnels\[funnelId]\editor\[funnelPageId]\_components\funnel-editor-sidebar\index.tsx
 import { db } from '@/lib/db'
 import EditorProvider from '@/providers/editor/editor-provider'
 import { redirect } from 'next/navigation'
