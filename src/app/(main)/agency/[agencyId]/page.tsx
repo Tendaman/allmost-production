@@ -1,3 +1,4 @@
+import AgencyChartActivity from '@/components/chart-data/agency-chart-activity'
 import CircleProgress from '@/components/global/circle-progress'
 import {
   Card,
@@ -71,7 +72,7 @@ const Page = async ({
       .filter((session) => session.status === 'complete')
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -79,7 +80,7 @@ const Page = async ({
       .filter((session) => session.status === 'open')
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
     net = +totalClosedSessions
@@ -95,6 +96,12 @@ const Page = async ({
       100
     ).toFixed(2)
   }
+
+  // Reverse the combined session data to invert the chart horizontally
+  const reversedData = [
+    ...(totalClosedSessions || []),
+    ...(totalPendingSessions || [])
+  ].reverse()
 
   return (
     <div className="relative h-full">
@@ -196,18 +203,7 @@ const Page = async ({
             <CardHeader>
               <CardTitle>Transaction History</CardTitle>
             </CardHeader>
-            <AreaChart
-              className="text-sm stroke-primary"
-              data={[
-                ...(totalClosedSessions || []),
-                ...(totalPendingSessions || []),
-              ]}
-              index="created"
-              categories={['amount_total']}
-              colors={['primary']}
-              yAxisWidth={30}
-              showAnimation={true}
-            />
+            <AgencyChartActivity data={reversedData} />
           </Card>
           <Card className="xl:w-[400px] w-full">
             <CardHeader>

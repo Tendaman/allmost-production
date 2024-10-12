@@ -26,6 +26,7 @@ import { AreaChart, BadgeDelta } from '@tremor/react'
 import { ClipboardIcon, Contact2, DollarSign, ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import CheckoutActivityChart from '@/components/chart-data/checkout-activity-chart'
 
 type Props = {
   params: { subaccountId: string }
@@ -68,15 +69,15 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
     )
     sessions = checkoutSessions.data.map((session) => ({
       ...session,
-      created: new Date(session.created).toLocaleDateString(),
-      amount_total: session.amount_total ? session.amount_total / 100 : 0,
+      created: new Date(session.created * 1000).toLocaleDateString(),
+      amount_total: session.amount_total ? parseFloat((session.amount_total / 100).toFixed(2)) : 0, // Ensure amount_total is a number
     }))
 
     totalClosedSessions = checkoutSessions.data
       .filter((session) => session.status === 'complete')
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -86,7 +87,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
       )
       .map((session) => ({
         ...session,
-        created: new Date(session.created).toLocaleDateString(),
+        created: new Date(session.created* 1000).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -120,6 +121,14 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
       0
     ),
   }))
+
+
+  const chartData = sessions
+    
+    .map((session) => ({
+      ...session,
+      amount_total: Math.min(session.amount_total || 0), // Cap values
+    })) || []
 
   return (
     <BlurPage>
@@ -229,15 +238,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
               <CardHeader>
                 <CardTitle>Checkout Activity</CardTitle>
               </CardHeader>
-              <AreaChart
-                className="text-sm stroke-primary"
-                data={sessions || []}
-                index="created"
-                categories={['amount_total']}
-                colors={['primary']}
-                yAxisWidth={30}
-                showAnimation={true}
-              />
+              <CheckoutActivityChart data={chartData}  />
             </Card>
           </div>
           <div className="flex gap-4 xl:!flex-row flex-col">
