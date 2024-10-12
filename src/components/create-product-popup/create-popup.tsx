@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+//src\components\create-product-popup\create-popup.tsx
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import FileUpload from '../global/file-upload';
 
 interface CreateProductPopupProps {
   isOpen: boolean;
@@ -23,7 +25,20 @@ const CreateProductPopup: React.FC<CreateProductPopupProps> = ({ isOpen, onClose
   const [currency, setCurrency] = useState('USD');
   const [recurringInterval, setRecurringInterval] = useState('month');
   const [isLoading, setIsLoading] = useState(false);
+  const [maxHeight, setMaxHeight] = useState('80vh');
   const { toast } = useToast();
+
+  useEffect(() => {
+    const updateMaxHeight = () => {
+      const windowHeight = window.innerHeight;
+      setMaxHeight(`${windowHeight * 0.8}px`);
+    };
+
+    updateMaxHeight();
+    window.addEventListener('resize', updateMaxHeight);
+
+    return () => window.removeEventListener('resize', updateMaxHeight);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +87,7 @@ const CreateProductPopup: React.FC<CreateProductPopupProps> = ({ isOpen, onClose
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-full overflow-y-auto" style={{ maxHeight: maxHeight }}>
         <DialogHeader>
           <DialogTitle>Create New Product</DialogTitle>
         </DialogHeader>
@@ -103,14 +118,15 @@ const CreateProductPopup: React.FC<CreateProductPopupProps> = ({ isOpen, onClose
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="image" className="text-right">
-                Image URL
+                Product Image
               </Label>
-              <Input
-                id="image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="col-span-3"
-              />
+              <div className='col-span-3'>
+                <FileUpload
+                  apiEndpoint="media"
+                  onChange={setImage}
+                  value={image}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="priceType" className="text-right">

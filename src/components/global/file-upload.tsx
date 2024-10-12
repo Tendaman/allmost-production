@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { UploadDropzone } from '@/lib/uploadthing'
 
 type Props = {
-  apiEndpoint: 'agencyLogo' | 'avatar' | 'subaccountLogo'
+  apiEndpoint: 'agencyLogo' | 'avatar' | 'subaccountLogo' | 'media'
   onChange: (url?: string) => void
   value?: string
 }
@@ -34,7 +34,7 @@ const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
               rel="noopener_noreferrer"
               className="ml-2 text-sm text-indigo-500 dark:text-indigo-400 hover:underline"
             >
-              View PDF
+              View Media
             </a>
           </div>
         )}
