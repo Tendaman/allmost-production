@@ -13,6 +13,20 @@ type Props = {
 const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
   const type = value?.split('.').pop()
 
+  const getRemoveButtonText = (endpoint: Props['apiEndpoint']) => {
+    switch (endpoint) {
+      case 'agencyLogo':
+      case 'subaccountLogo':
+        return 'Remove Logo'
+      case 'avatar':
+        return 'Remove Avatar'
+      case 'media':
+        return 'Remove Media'
+      default:
+        return 'Remove File'
+    }
+  }
+
   if (value) {
     return (
       <div className="flex flex-col justify-center items-center">
@@ -42,9 +56,10 @@ const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
           onClick={() => onChange('')}
           variant="ghost"
           type="button"
+          className="mt-2"
         >
           <X className="h-4 w-4" />
-          Remove Logo
+          {getRemoveButtonText(apiEndpoint)}
         </Button>
       </div>
     )
