@@ -234,12 +234,7 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
               </CardContent>
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
             </Card>
-            <Card className="p-4 flex-1">
-              <CardHeader>
-                <CardTitle>Checkout Activity</CardTitle>
-              </CardHeader>
               <CheckoutActivityChart data={chartData}  />
-            </Card>
           </div>
           <div className="flex gap-4 xl:!flex-row flex-col">
             <Card className="p-4 flex-1 h-[450px] overflow-scroll relative">

@@ -101,8 +101,7 @@ const Page = async ({
   const reversedData = [
     ...(totalClosedSessions || []),
     ...(totalPendingSessions || [])
-  ].reverse()
-
+  ]
   return (
     <div className="relative h-full">
       {!agencyDetails.connectAccountId && (
