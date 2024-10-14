@@ -78,13 +78,14 @@ const ContactPage = async ({ params }: Props) => {
         <TableBody className="font-medium truncate">
           {allContacts.map((contact) => (
             <TableRow key={contact.id}>
-              <TableCell>
+              <TableCell className='flex gap-2 items-center'>
                 <Avatar>
                   <AvatarImage alt="@shadcn" />
                   <AvatarFallback className="bg-primary text-white">
                     {contact.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
+                {contact.name}
               </TableCell>
               <TableCell>{contact.email}</TableCell>
               <TableCell>
