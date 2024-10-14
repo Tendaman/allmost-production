@@ -1,139 +1,202 @@
 'use client'
 
 import { AreaChart } from '@tremor/react'
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CardHeader, Card, CardTitle } from '../ui/card'
+import { CardHeader, Card, CardTitle, CardFooter } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CheckoutActivityChartProps {
   data: any[]
 }
 
-export default function CheckoutActivityChart({ data}: CheckoutActivityChartProps) {
+export default function CheckoutActivityChart({ data }: CheckoutActivityChartProps) {
+  const [timeRange, setTimeRange] = useState('daily')
+  const [currentPage, setCurrentPage] = useState(0)
 
-  const [timeRange, setTimeRange] = useState('all')
+  const formatNumber = (value: number) => {
+    const absNum = Math.abs(value)
+    if (absNum >= 1e12) return (value / 1e12).toFixed(3).replace(/\.?0+$/, '') + 't'
+    if (absNum >= 1e9) return (value / 1e9).toFixed(3).replace(/\.?0+$/, '') + 'b'
+    if (absNum >= 1e6) return (value / 1e6).toFixed(3).replace(/\.?0+$/, '') + 'm'
+    if (absNum >= 1e3) return (value / 1e3).toFixed(3).replace(/\.?0+$/, '') + 'k'
+    return value.toFixed(2).replace(/\.?0+$/, '')
+  }
 
   const formatYAxis = (value: number) => {
-    const absNum = Math.abs(value)
-    if (absNum >= 1e12) {
-      return (value / 1e12).toFixed(0) + 't'
-    } else if (absNum >= 1e9) {
-      return (value / 1e9).toFixed(0) + 'b'
-    } else if (absNum >= 1e6) {
-      return (value / 1e6).toFixed(0) + 'm'
-    } else if (absNum >= 1e3) {
-      return (value / 1e3).toFixed(0) + 'k'
-    } else {
-      return value.toFixed(0)
-    }
+    return formatNumber(value)
   }
 
-  const filterData = (range: string) => {
+  const filterAndPrepareData = useMemo(() => {
     const now = new Date()
-    switch (range) {
-      case 'this_month':
-        const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-        return data.filter(item => new Date(item.created) >= thisMonth)
-      case 'last_month':
-        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-        const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-        return data.filter(item => {
-          const itemDate = new Date(item.created)
-          return itemDate >= lastMonth && itemDate < thisMonthStart
-        })
-      case 'today':
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-        return data.filter(item => new Date(item.created) >= today)
-      case 'yesterday':
-        const yesterdayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
-        const yesterdayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-        return data.filter(item => {
-          const itemDate = new Date(item.created)
-          return itemDate >= yesterdayStart && itemDate < yesterdayEnd
-        })
-      case 'this_year':
-        const thisYear = new Date(now.getFullYear(), 0, 1)
-        return data.filter(item => new Date(item.created) >= thisYear)
-      case 'last_year':
-        const lastYearStart = new Date(now.getFullYear() - 1, 0, 1)
-        const lastYearEnd = new Date(now.getFullYear() - 1, 11, 31)
-        return data.filter(item => {
-          const itemDate = new Date(item.created)
-          return itemDate >= lastYearStart && itemDate <= lastYearEnd
-        })
-      default:
-        return data
+    const getStartDate = () => {
+      switch (timeRange) {
+        case 'daily':
+          return new Date(now.getFullYear(), now.getMonth(), now.getDate() - currentPage)
+        case 'weekly':
+          return new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() + currentPage * 7))
+        case 'monthly':
+          return new Date(now.getFullYear(), now.getMonth() - currentPage, 1)
+        case 'yearly':
+          return new Date(now.getFullYear() - currentPage, 0, 1)
+        default:
+          return now
+      }
     }
-  }
 
-  const filteredData = filterData(timeRange)
+    const startDate = getStartDate()
+    const endDate = new Date(startDate)
 
-  // Reverse the data array to invert it horizontally
-  const reversedData = [...filteredData].reverse()
+    switch (timeRange) {
+      case 'daily':
+        endDate.setDate(startDate.getDate() + 1)
+        break
+      case 'weekly':
+        endDate.setDate(startDate.getDate() + 7)
+        break
+      case 'monthly':
+        endDate.setMonth(startDate.getMonth() + 1)
+        break
+      case 'yearly':
+        endDate.setFullYear(startDate.getFullYear() + 1)
+        break
+    }
+
+    const getDateKey = (date: Date) => {
+      switch (timeRange) {
+        case 'daily':
+          return `${date.getHours().toString().padStart(2, '0')}:00`
+        case 'weekly':
+          return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]
+        case 'monthly':
+          return `Week ${Math.ceil(date.getDate() / 7)}`
+        case 'yearly':
+          return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()]
+        default:
+          return ''
+      }
+    }
+
+    const createEmptyDataset = () => {
+      switch (timeRange) {
+        case 'daily':
+          return Array.from({ length: 24 }, (_, i) => ({ created: `${i.toString().padStart(2, '0')}:00`, amount_total: 0 }))
+        case 'weekly':
+          return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => ({ created: day, amount_total: 0 }))
+        case 'monthly':
+          return Array.from({ length: 5 }, (_, i) => ({ created: `Week ${i + 1}`, amount_total: 0 }))
+        case 'yearly':
+          return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(month => ({ created: month, amount_total: 0 }))
+        default:
+          return []
+      }
+    }
+
+    const filteredData = data.filter(item => {
+      const itemDate = new Date(item.created)
+      return itemDate >= startDate && itemDate < endDate
+    })
+
+    const aggregatedData = filteredData.reduce((acc, item) => {
+      const itemDate = new Date(item.created)
+      const key = getDateKey(itemDate)
+      if (!acc[key]) acc[key] = 0
+      acc[key] += item.amount_total
+      return acc
+    }, {} as Record<string, number>)
+
+    const preparedData = createEmptyDataset().map(item => ({
+      ...item,
+      amount_total: aggregatedData[item.created] || 0
+    }))
+
+    return preparedData
+  }, [data, timeRange, currentPage])
 
   const getTimeRangeLabel = () => {
+    const now = new Date()
     switch (timeRange) {
-      case 'this_month': return 'this month'
-      case 'last_month': return 'last month'
-      case 'today': return 'today'
-      case 'yesterday': return 'yesterday'
-      case 'this_year': return 'this year'
-      case 'last_year': return 'last year'
-      default: return 'the selected time range'
+      case 'daily':
+        const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() - currentPage)
+        return day.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+      case 'weekly':
+        const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() + currentPage * 7))
+        const weekEnd = new Date(weekStart)
+        weekEnd.setDate(weekStart.getDate() + 6)
+        return `${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+      case 'monthly':
+        const month = new Date(now.getFullYear(), now.getMonth() - currentPage, 1)
+        return month.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+      case 'yearly':
+        const year = now.getFullYear() - currentPage
+        return year.toString()
+      default:
+        return 'the selected time range'
     }
+  }
+
+  const handlePrevious = () => {
+    setCurrentPage(prev => prev + 1)
+  }
+
+  const handleNext = () => {
+    setCurrentPage(prev => Math.max(0, prev - 1))
   }
 
   return (
     <Card className="p-4 flex-1">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Checkout Activity</CardTitle>
-        <Select value={timeRange} onValueChange={setTimeRange}>
+        <Select value={timeRange} onValueChange={(value) => { setTimeRange(value); setCurrentPage(0); }}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
           <SelectContent>
-          <SelectItem value="all">All Data</SelectItem>
-            <SelectItem value="this_year">This Year</SelectItem>
-            <SelectItem value="last_year">Last Year</SelectItem>
-            <SelectItem value="this_month">This Month</SelectItem>
-            <SelectItem value="last_month">Last Month</SelectItem>
-            <SelectItem value="today">Today</SelectItem>
-            <SelectItem value="yesterday">Yesterday</SelectItem>
+            <SelectItem value="daily">Daily</SelectItem>
+            <SelectItem value="weekly">Weekly</SelectItem>
+            <SelectItem value="monthly">Monthly</SelectItem>
+            <SelectItem value="yearly">Yearly</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
-      {reversedData.length > 0 ? (
-        <AreaChart
-          className="text-sm stroke-primary h-72"
-          data={reversedData}
-          index="created"
-          categories={['amount_total']}
-          colors={['primary']}
-          yAxisWidth={60}
-          showAnimation={true}
-          valueFormatter={formatYAxis}
-          minValue={0}
-          customTooltip={({ payload }) => {
-            if (payload && payload.length) {
-              return (
-                <div className="bg-white p-2 border rounded shadow">
-                  <p className="text-sm">{payload[0].payload.created}</p>
-                  <p className="text-sm font-bold">{formatYAxis(payload[0].value as number)}</p>
-                </div>
-              )
-            }
-            return null
-          }}
-          showYAxis={true}
-          showGridLines={true}
-          autoMinValue={false}
-          tickGap={5}
-        />
-      ) : (
-        <div className="flex items-center justify-center h-72 text-muted-foreground">
-          No transactions were recorded for {getTimeRangeLabel()}.
-        </div>
-      )}
-    </Card>  
+      <AreaChart
+        className="text-sm stroke-primary h-72"
+        data={filterAndPrepareData}
+        index="created"
+        categories={['amount_total']}
+        colors={['primary']}
+        yAxisWidth={60}
+        showAnimation={true}
+        valueFormatter={formatYAxis}
+        minValue={0}
+        customTooltip={({ payload }) => {
+          if (payload && payload.length) {
+            return (
+              <div className="bg-white p-2 border rounded shadow">
+                <p className="text-sm">{payload[0].payload.created}</p>
+                <p className="text-sm font-bold">{formatYAxis(payload[0].value as number)}</p>
+              </div>
+            )
+          }
+          return null
+        }}
+        showYAxis={true}
+        showGridLines={true}
+        autoMinValue={false}
+        tickGap={5}
+      />
+      <CardFooter className="flex justify-between items-center mt-4">
+        <Button variant="outline" size="sm" onClick={handlePrevious}>
+          <ChevronLeft className="h-4 w-4 mr-2" />
+          Previous
+        </Button>
+        <span className="text-sm font-medium">{getTimeRangeLabel()}</span>
+        <Button variant="outline" size="sm" onClick={handleNext} disabled={currentPage === 0}>
+          Next
+          <ChevronRight className="h-4 w-4 ml-2" />
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
