@@ -45,7 +45,6 @@ const TransitionHistory = ({ totalClosedSessions, currency }) => {
               isIncreasePositive={changeType === 'increase'}
               size="xs"
             >
-              {changeType === 'increase' ? '+' : '-'}
               {formatPercentage(Math.abs(percentageChange))}% 
             </BadgeDelta>
           )}
