@@ -28,6 +28,10 @@ export default function CheckoutActivityChart({ data }: CheckoutActivityChartPro
     return formatNumber(value)
   }
 
+  const daysInMonth = (year: number, month: number) => {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
   const filterAndPrepareData = useMemo(() => {
     const now = new Date()
     const getStartDate = () => {
@@ -70,7 +74,7 @@ export default function CheckoutActivityChart({ data }: CheckoutActivityChartPro
         case 'weekly':
           return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]
         case 'monthly':
-          return `Week ${Math.ceil(date.getDate() / 7)}`
+          return date.getDate().toString()
         case 'yearly':
           return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()]
         default:
@@ -85,7 +89,8 @@ export default function CheckoutActivityChart({ data }: CheckoutActivityChartPro
         case 'weekly':
           return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => ({ created: day, amount_total: 0 }))
         case 'monthly':
-          return Array.from({ length: 5 }, (_, i) => ({ created: `Week ${i + 1}`, amount_total: 0 }))
+          const daysInMonthCount = daysInMonth(now.getFullYear(), now.getMonth() - currentPage)
+          return Array.from({ length: daysInMonthCount }, (_, i) => ({ created: (i + 1).toString(), amount_total: 0 }))
         case 'yearly':
           return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(month => ({ created: month, amount_total: 0 }))
         default:
@@ -173,7 +178,7 @@ export default function CheckoutActivityChart({ data }: CheckoutActivityChartPro
         customTooltip={({ payload }) => {
           if (payload && payload.length) {
             return (
-              <div className="bg-white p-2 border rounded shadow">
+              <div className="bg-white p-2 border rounded shadow dark:bg-gray-900 dark:border-primary">
                 <p className="text-sm">{payload[0].payload.created}</p>
                 <p className="text-sm font-bold">{formatYAxis(payload[0].value as number)}</p>
               </div>
