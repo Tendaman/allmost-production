@@ -112,12 +112,10 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
   }))
 
 
-  const chartData = sessions
-    
-    .map((session) => ({
-      ...session,
-      amount_total: Math.min(session.amount_total || 0), // Cap values
-    })) || []
+  const chartData = (sessions || []).map((session) => ({
+    ...session,
+    amount_total: Math.min(session.amount_total || 0), // Cap values
+  }));
 
   return (
     <BlurPage>
