@@ -114,7 +114,7 @@ const Page = async ({
               </CardDescription>
               <Link
                 href={`/agency/${agencyDetails.id}/launchpad`}
-                className="p-2 w-fit bg-secondary text-white rounded-md flex items-center gap-2"
+                className="p-2 w-fit bg-blue-500 hover:bg-blue-400 text-white rounded-md flex items-center gap-2"
               >
                 <ClipboardIcon />
                 Launch Pad
