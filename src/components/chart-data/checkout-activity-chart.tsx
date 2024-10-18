@@ -1,3 +1,4 @@
+//src\components\chart-data\checkout-activity-chart.tsx
 'use client'
 
 import { AreaChart } from '@tremor/react'

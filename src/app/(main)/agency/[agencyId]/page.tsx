@@ -72,7 +72,15 @@ const Page = async ({
       .filter((session) => session.status === 'complete')
       .map((session) => ({
         ...session,
-        created: new Date(session.created * 1000).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -80,7 +88,15 @@ const Page = async ({
       .filter((session) => session.status === 'open')
       .map((session) => ({
         ...session,
-        created: new Date(session.created * 1000).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
     net = +totalClosedSessions

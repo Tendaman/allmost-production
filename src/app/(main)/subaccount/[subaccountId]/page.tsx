@@ -1,3 +1,4 @@
+//src\app\(main)\subaccount\[subaccountId]\page.tsx
 import BlurPage from '@/components/global/blur-page'
 import CircleProgress from '@/components/global/circle-progress'
 import PipelineValue from '@/components/global/pipeline-value'
@@ -58,7 +59,15 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
     )
     sessions = checkoutSessions.data.map((session) => ({
       ...session,
-      created: new Date(session.created * 1000).toLocaleDateString(),
+      created: new Date(session.created * 1000).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false, // Set to true for 12-hour format
+      }),
       amount_total: session.amount_total ? parseFloat((session.amount_total / 100).toFixed(2)) : 0, // Ensure amount_total is a number
     }))
 
@@ -66,7 +75,15 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
       .filter((session) => session.status === 'complete')
       .map((session) => ({
         ...session,
-        created: new Date(session.created * 1000).toLocaleDateString(),
+        created: new Date(session.created * 1000).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
@@ -76,7 +93,15 @@ const SubaccountPageId = async ({ params, searchParams }: Props) => {
       )
       .map((session) => ({
         ...session,
-        created: new Date(session.created* 1000).toLocaleDateString(),
+        created: new Date(session.created* 1000).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }))
 
