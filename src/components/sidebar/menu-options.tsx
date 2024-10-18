@@ -132,7 +132,7 @@ const MenuOptions = ({
                     user?.role === 'AGENCY_ADMIN') &&
                     user?.Agency && (
                       <CommandGroup heading="Agency">
-                        <CommandItem className="!bg-transparent my-2 text-primary broder-[1px] border-border p-2 rounded-md hover:!bg-muted cursor-pointer transition-all">
+                        <CommandItem className="!bg-transparent my-2 !text-black broder-[1px] border-border p-2 rounded-md hover:!bg-muted hover:!text-black cursor-pointer transition-all">
                           {defaultOpen ? (
                             <Link
                               href={`/agency/${user?.Agency?.id}`}
@@ -147,7 +147,9 @@ const MenuOptions = ({
                                 />
                               </div>
                               <div className="flex flex-col flex-1">
-                                {user?.Agency?.name}
+                                <span className="text-muted-foreground">
+                                  {user?.Agency?.name}
+                                </span>
                                 <span className="text-muted-foreground">
                                   {user?.Agency?.address}
                                 </span>
@@ -182,7 +184,10 @@ const MenuOptions = ({
                   <CommandGroup heading="Accounts">
                     {!!subAccounts
                       ? subAccounts.map((subaccount) => (
-                          <CommandItem key={subaccount.id}>
+                          <CommandItem
+                            key={subaccount.id}
+                            className="!bg-transparent my-2 !text-black broder-[1px] border-border p-2 rounded-md hover:!bg-muted hover:!text-black cursor-pointer transition-all"
+                          >
                             {defaultOpen ? (
                               <Link
                                 href={`/subaccount/${subaccount.id}`}
@@ -197,7 +202,9 @@ const MenuOptions = ({
                                   />
                                 </div>
                                 <div className="flex flex-col flex-1">
-                                  {subaccount.name}
+                                  <span className="text-muted-foreground">
+                                    {subaccount.name}
+                                  </span>
                                   <span className="text-muted-foreground">
                                     {subaccount.address}
                                   </span>
