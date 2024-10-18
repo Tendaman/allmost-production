@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { ModeToggle } from './mode-toggle'
 
 type Props = {
-  notifications: NotificationWithUser | []
+  notifications: NotificationWithUser
   role?: Role
   className?: string
   subAccountId?: string
