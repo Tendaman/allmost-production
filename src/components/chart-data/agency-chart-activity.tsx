@@ -155,7 +155,7 @@ export default function AgencyChartActivity({ data }: AgencyChartActivityProps) 
   return (
     <Card className="p-4 flex-1">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Checkout Activity</CardTitle>
+        <CardTitle>Transaction History</CardTitle>
         <Select value={timeRange} onValueChange={(value) => { setTimeRange(value); setCurrentPage(0); }}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select time range" />

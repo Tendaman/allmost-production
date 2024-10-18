@@ -214,13 +214,8 @@ const Page = async ({
           </Card>
         </div>
         <div className="flex gap-4 xl:!flex-row flex-col">
-          <Card className="p-4 flex-1">
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-            </CardHeader>
-            <AgencyChartActivity data={reversedData} />
-          </Card>
-          <Card className="xl:w-[400px] w-full">
+          <AgencyChartActivity data={reversedData} />
+          <Card className="xl:w-[310px] w-full">
             <CardHeader>
               <CardTitle>Conversions</CardTitle>
             </CardHeader>
