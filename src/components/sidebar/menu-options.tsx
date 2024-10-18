@@ -110,7 +110,7 @@ const MenuOptions = ({
                   <Compass />
                   <div className="flex flex-col">
                     {details.name}
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground break-words whitespace-normal">
                       {details.address}
                     </span>
                   </div>
@@ -123,10 +123,10 @@ const MenuOptions = ({
                 </div>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 h-80 mt-4 z-[200]">
+            <PopoverContent className="w-80 h-90 mt-4 z-[200]">
               <Command className="rounded-lg">
                 <CommandInput placeholder="Search Accounts..." />
-                <CommandList className="pb-16">
+                <CommandList className="pb-2 overflow-auto">
                   <CommandEmpty>Nothing was found!!</CommandEmpty>
                   {(user?.role === 'AGENCY_OWNER' ||
                     user?.role === 'AGENCY_ADMIN') &&
@@ -147,9 +147,7 @@ const MenuOptions = ({
                                 />
                               </div>
                               <div className="flex flex-col flex-1">
-                                <span className="text-muted-foreground">
-                                  {user?.Agency?.name}
-                                </span>
+                                {user?.Agency?.name}
                                 <span className="text-muted-foreground">
                                   {user?.Agency?.address}
                                 </span>
@@ -202,9 +200,7 @@ const MenuOptions = ({
                                   />
                                 </div>
                                 <div className="flex flex-col flex-1">
-                                  <span className="text-muted-foreground">
-                                    {subaccount.name}
-                                  </span>
+                                  {subaccount.name}
                                   <span className="text-muted-foreground">
                                     {subaccount.address}
                                   </span>
