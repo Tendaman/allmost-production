@@ -94,7 +94,7 @@ const InventoryTab: React.FC<Props> = ({ subaccountId }) => {
             {product.prices[0]?.recurring?.interval ? (
               <p className="text-gray-500 dark:text-gray-400">{product.prices[0].recurring.interval}</p>
             ) : (
-              <p className="text-gray-500 dark:text-gray-400">One-time</p>
+              <p className="text-gray-500 dark:text-gray-400">one-time</p>
             )}
 
             {/* Product Price */}

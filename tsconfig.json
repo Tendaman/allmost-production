@@ -3,7 +3,7 @@
     "noEmitOnError": false,  // Disables all strict type-checking options
     "noUnusedLocals": false,  // Avoids errors for unused local variables
     "noUnusedParameters": false, // Avoids errors for unused function parameters
-    "target": "es5",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "typeRoots": ["@types", "./types"],
     "allowJs": true,

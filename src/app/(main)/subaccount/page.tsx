@@ -16,6 +16,7 @@ const SubAccountMainPage = async ({ searchParams }: Props) => {
 
   const user = await getAuthUserDetails()
   if (!user) return
+  if (user.agencyId !== agencyId) return <Unauthorized />
 
   const getFirstSubaccountWithAccess = user.Permissions.find(
     (permission) => permission.access === true

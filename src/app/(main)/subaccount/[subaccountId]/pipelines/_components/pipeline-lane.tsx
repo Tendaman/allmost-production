@@ -178,6 +178,9 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                     droppableId={laneDetails.id.toString()}
                     key={laneDetails.id}
                     type="ticket"
+                    isDropDisabled={false}
+                    isCombineEnabled={false}
+                    ignoreContainerClipping={false}
                   >
                     {(provided) => (
                       <div className=" max-h-[700px] overflow-none pt-12 ">

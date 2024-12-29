@@ -29,6 +29,8 @@ import CustomModal from '../global/custom-modal'
 import SubAccountDetails from '../forms/subaccount-details'
 import { Separator } from '../ui/separator'
 import { icons } from '@/lib/constants'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { DialogTitle } from '@radix-ui/react-dialog'
 
 type Props = {
   defaultOpen?: boolean
@@ -91,6 +93,9 @@ const MenuOptions = ({
           }
         )}
       >
+        <VisuallyHidden>
+          <DialogTitle>Command Menu</DialogTitle>
+        </VisuallyHidden>
         <div>
           <AspectRatio ratio={16 / 5}>
             <Image
@@ -236,7 +241,7 @@ const MenuOptions = ({
                 </CommandList>
                 {(user?.role === 'AGENCY_OWNER' ||
                   user?.role === 'AGENCY_ADMIN') && (
-                  <SheetClose>
+                  <SheetClose asChild>
                     <Button
                       className="w-full flex gap-2"
                       onClick={() => {

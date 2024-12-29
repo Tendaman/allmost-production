@@ -46,22 +46,23 @@ export const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
   });
   const renderWords = () => {
     return (
-      <p>
-        {wordsArray.map((word, idx) => {
-          return (
-            <span key={`word-${idx}`} className="inline-block">
-              {word.text.map((char, index) => (
-                <span key={`char-${index}`} className={cn(`z-[99999]`, word.className)}>
-                  {char}
-                </span>
-              ))}
-              &nbsp;
-            </span>
-          );
-        })}
-      </p>
+      <div className="word-container">
+        {wordsArray.map((word, idx) => (
+          <span key={`word-${idx}`} className="inline-block">
+            {word.text.map((char, index) => (
+              <span
+                key={`char-${index}`}
+                className={`z-[99999] ${word.className}`}
+              >
+                {char}
+              </span>
+            ))}
+            &nbsp;
+          </span>
+        ))}
+      </div>
     );
-  };
+  };  
 
   return (
     <div className={cn("flex justify-center w-full space-x-1", className)}>

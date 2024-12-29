@@ -39,6 +39,8 @@ const Recursive = ({ element }: Props) => {
       return <LinkComponent element={element} />
     case 'product':
       return <ProductComponent element={element} />
+    // case 'cart':
+    //   return <CartComponent element={element} />
     default:
       return null
   }

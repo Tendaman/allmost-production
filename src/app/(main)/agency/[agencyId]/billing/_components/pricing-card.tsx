@@ -98,9 +98,9 @@ const PricingCard = ({
           <div className="flex flex-col md:!flex-row items-center justify-between rounded-lg border gap-4 p-4">
             <div>
               <p>{highlightTitle}</p>
-              <p className="text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground">
                 {highlightDescription}
-              </p>
+              </div>
             </div>
 
             <Button

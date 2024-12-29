@@ -16,6 +16,7 @@ import ThreeColumnPlaceholder from './three-column-placeholder'
 import ContactFormComponentPlaceholder from './contact-form-placeholder'
 import CheckoutPlaceholder from './checkout-placeholder'
 import ImagePlaceholder from './image-placeholder'
+import CartPlaceholder from './cart-placeholder'
 
 type Props = {}
 
@@ -84,6 +85,12 @@ const ComponentsTab = (props: Props) => {
       Component: <LinkPlaceholder />,
       label: 'Link',
       id: 'link',
+      group: 'elements',
+    },
+    {
+      Component: <CartPlaceholder />,
+      label: 'Cart View',
+      id: 'cart',
       group: 'elements',
     },
   ]

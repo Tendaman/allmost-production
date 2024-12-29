@@ -153,7 +153,7 @@ const page = async ({ params }: Props) => {
               </TableCell>
               <TableCell>{charge.date}</TableCell>
               <TableCell>
-                <p
+                <div
                   className={clsx('', {
                     'text-emerald-500': charge.status.toLowerCase() === 'paid',
                     'text-orange-600':
@@ -162,7 +162,7 @@ const page = async ({ params }: Props) => {
                   })}
                 >
                   {charge.status.toUpperCase()}
-                </p>
+                </div>
               </TableCell>
               <TableCell className="text-right">{charge.amount}</TableCell>
             </TableRow>

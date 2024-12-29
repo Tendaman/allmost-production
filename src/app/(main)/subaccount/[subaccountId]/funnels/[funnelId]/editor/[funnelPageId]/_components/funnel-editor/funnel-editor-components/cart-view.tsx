@@ -1,0 +1,1 @@
+//src\app\(main)\subaccount\[subaccountId]\funnels\[funnelId]\editor\[funnelPageId]\_components\funnel-editor\funnel-editor-components\cart-view.tsx

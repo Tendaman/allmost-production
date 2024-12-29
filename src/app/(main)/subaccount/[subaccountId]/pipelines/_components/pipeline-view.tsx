@@ -150,6 +150,9 @@ const PipelineView = ({
           droppableId="lanes"
           type="lane"
           direction="horizontal"
+          isDropDisabled={false}
+          isCombineEnabled={false}
+          ignoreContainerClipping={false}
           key="lanes"
         >
           {(provided) => (

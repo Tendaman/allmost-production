@@ -100,7 +100,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
     <AlertDialog>
       <div className="flex border-[1px] lg:!flex-row flex-col ">
         <aside className="flex-[0.3] bg-background p-6  flex flex-col justify-between ">
-          <ScrollArea className="h-full ">
+          <ScrollArea className="h-full">
             <div className="flex gap-4 items-center">
               <Check />
               Funnel Steps
@@ -113,6 +113,9 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
                 <Droppable
                   droppableId="funnels"
                   direction="vertical"
+                  isDropDisabled={false}
+                  isCombineEnabled={false}
+                  ignoreContainerClipping={false}
                   key="funnels"
                 >
                   {(provided) => (

@@ -185,7 +185,7 @@ export const StickyScroll = ({
               >
                 {item.title}
               </motion.h2>
-              <motion.p
+              <motion.div
                 initial={{
                   opacity: 0,
                 }}
@@ -195,7 +195,7 @@ export const StickyScroll = ({
                 className="max-w-md mt-4 space-y-2"
               >
                 {item.description}
-              </motion.p>
+              </motion.div>
             </div>
           ))}
           <div className="h-40" />
